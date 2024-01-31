@@ -2,8 +2,15 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import loginImg from "../../utilities/img/login.png"
+import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import auth from '../../firebase.init';
+import googleLogo from "../../utilities/img/Google.png";
 const Login = () => {
   const { register, formState: { errors }, handleSubmit } = useForm();
+  const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+  if (user) {
+    console.log(user);
+  }
 
   return (
     <div className="mx-auto px-2 md:px-5 lg:px-20 grid grid-cols-1 md:grid-cols-2 items-center content-center py-12 bg-[#F1F3F8] min-h-screen">
@@ -96,13 +103,19 @@ const Login = () => {
               </Link>
             </div>
 
-            {/* <div className="mt-6 w-full">
-              <SocialLogin signInWithGoogle={signInWithGoogle} />
-            </div> */}
+            <div className="divider">OR</div>
+            <button
+              onClick={() => signInWithGoogle()}
+              className="w-full flex justify-center items-center gap-3 text-primary border border-primary hover:border-secondary hover:text-secondary p-2 rounded-full hover:shadow duration-300"
+            >
+              Login With
+              <img className="w-[25px]" src={googleLogo} alt="" />
+            </button>
           </div>
         </div>
       </div>
     </div>
+
   );
 };
 
