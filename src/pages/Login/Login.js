@@ -2,15 +2,28 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import loginImg from "../../utilities/img/login.png"
-import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import googleLogo from "../../utilities/img/Google.png";
+import Loading from '../Shared/Loading';
 const Login = () => {
   const { register, formState: { errors }, handleSubmit } = useForm();
-  const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
-  if (user) {
-    console.log(user);
+  const [
+    signInWithEmailAndPassword,
+    user,
+    loading,
+    error,
+  ] = useSignInWithEmailAndPassword(auth);
+  const [signInWithGoogle, GUser, GLoading, GError] = useSignInWithGoogle(auth);
+  if (user || GUser) {
+    console.log(user, GUser);
   }
+  if (loading || GLoading) {
+    return <Loading></Loading>;
+  }
+  const onSubmit = data => {
+    signInWithEmailAndPassword(data.email, data.password);
+  };
 
   return (
     <div className="mx-auto px-2 md:px-5 lg:px-20 grid grid-cols-1 md:grid-cols-2 items-center content-center py-12 bg-[#F1F3F8] min-h-screen">
@@ -25,41 +38,34 @@ const Login = () => {
               <p className="mt-2">Enter your info below to login.</p>
             </div>
 
-            <form className="form-control">
+            <form onSubmit={handleSubmit(onSubmit)} className="form-control">
               <input
                 type="email"
                 placeholder="Your Email"
                 className="w-full border-b border-b-primary mt-4 p-2 text-1xl focus:outline-none focus:border-b-secondary"
-                defaultValue="admin@gmail.com"
+                // defaultValue="admin@gmail.com"
                 {...register("email", {
                   required: {
                     value: true,
-                    message: "Email is Required",
+                    message: 'Email is required'
                   },
                   pattern: {
                     value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
-                    message: "Provide a valid Email",
-                  },
+                    message: 'Provide a valid Email'
+                  }
                 })}
               />
               <label className="label">
-                {errors.email?.type === "required" && (
-                  <span className="label-text-alt text-red-500">
-                    {errors.email.message}
-                  </span>
-                )}
-                {errors.email?.type === "pattern" && (
-                  <span className="label-text-alt text-red-500">
-                    {errors.email.message}
-                  </span>
-                )}
+                {errors.email?.type === 'required' && <span className="label-text-alt text-red-500">{errors.email.message}</span>}
+                {errors.email?.type === 'pattern' && <span className="label-text-alt text-red-500">{errors.email.message}</span>}
+
               </label>
 
               <input
                 type="Password"
                 placeholder="Password"
                 className=" w-full border-b border-b-primary mt-4 p-2 text-1xl focus:outline-none focus:border-b-secondary"
-                defaultValue="123456"
+                // defaultValue="123456"
                 {...register("password", {
                   required: {
                     value: true,
@@ -83,17 +89,16 @@ const Login = () => {
                   </span>
                 )}
               </label>
-              {/* <p className="text-error text-sm">
+              <p className="text-error text-sm">
                 {(error || GError) && (error?.message || GError?.message)}
-              </p> */}
+              </p>
               <input
                 type="submit"
                 className="rounded-full text-white hover:bg-[#3825b1] bg-secondary shadow-lg  duration-300 cursor-pointer mt-6 p-2 text-1xl"
                 value="Login"
               />
             </form>
-
-            <div className="text-black mt-8 block">
+            <div className="text-current mt-8 block">
               New in MyScheduler?{" "}
               <Link to="/register" className="text-primary font-bold">
                 {" "}
@@ -108,7 +113,7 @@ const Login = () => {
               onClick={() => signInWithGoogle()}
               className="w-full flex justify-center items-center gap-3 text-primary border border-primary hover:border-secondary hover:text-secondary p-2 rounded-full hover:shadow duration-300"
             >
-              Login With
+              Continue With Google
               <img className="w-[25px]" src={googleLogo} alt="" />
             </button>
           </div>
