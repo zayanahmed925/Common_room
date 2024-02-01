@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import loginImg from "../../utilities/img/login.png"
 import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
@@ -15,8 +15,10 @@ const Login = () => {
     error,
   ] = useSignInWithEmailAndPassword(auth);
   const [signInWithGoogle, GUser, GLoading, GError] = useSignInWithGoogle(auth);
+  const navigate = useNavigate();
   if (user || GUser) {
     console.log(user, GUser);
+    navigate("/home")
   }
   if (loading || GLoading) {
     return <Loading></Loading>;

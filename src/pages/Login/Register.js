@@ -1,7 +1,7 @@
 import React from 'react';
 import regImg from "../../utilities/img/register.png";
 import googleLogo from "../../utilities/img/Google.png";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useCreateUserWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
@@ -15,14 +15,19 @@ const Register = () => {
         error,
     ] = useCreateUserWithEmailAndPassword(auth);
     const [signInWithGoogle, GUser, GLoading, GError] = useSignInWithGoogle(auth);
+    const navigate = useNavigate();
+    if (user || GUser) {
+        console.log(user, GUser);
+        navigate("/home")
+    }
     if (loading || GLoading) {
         return <Loading></Loading>;
     }
 
     const onSubmit = data => {
-        createUserWithEmailAndPassword(data.email, data.Password);
+        createUserWithEmailAndPassword(data.email, data.password);
         // const email = data.email
-        console.log(data);
+        // console.log(data.email, data.password);
     };
     // console.log(error);
 
