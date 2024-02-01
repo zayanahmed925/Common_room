@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -46,53 +47,55 @@ const Register_slot = ({ onRegister }) => {
     };
 
     return (
-        <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-md">
-            <h2 className="text-2xl font-semibold mb-4">Slot Registration</h2>
-            <div className="mb-4">
-                <label htmlFor="date" className="block text-sm font-medium text-gray-600">
-                    Select a date:
-                </label>
-                <DatePicker
-                    id="date"
-                    placeholderText="Select a date"
-                    selected={selectedDate}
-                    onChange={(date) => setSelectedDate(date)}
-                    dateFormat="MMMM d, yyyy"
-                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-                />
-            </div>
-            <div className="mb-4">
-                <label htmlFor="time" className="block text-sm font-medium text-gray-600">
-                    Select a time:
-                </label>
-                <select
-                    id="time"
-                    value={selectedTime}
-                    onChange={(e) => setSelectedTime(e.target.value)}
-                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+        <div >
+            <div className="bg-black bg-opacity-80 p-6 rounded-md">
+                <h2 className="text-2xl font-semibold mb-4">Slot Registration</h2>
+                <div className="mb-4">
+                    <label htmlFor="date" className="block text-sm font-medium text-gray-600">
+                        Select a date:
+                    </label>
+                    <DatePicker
+                        id="date"
+                        placeholderText="Select a date"
+                        selected={selectedDate}
+                        onChange={(date) => setSelectedDate(date)}
+                        dateFormat="MMMM d, yyyy"
+                        className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                    />
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="time" className="block text-sm font-medium text-gray-600">
+                        Select a time:
+                    </label>
+                    <select
+                        id="time"
+                        value={selectedTime}
+                        onChange={(e) => setSelectedTime(e.target.value)}
+                        className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                    >
+                        {generateTimeOptions()}
+                    </select>
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="person" className="block text-sm font-medium text-gray-600">
+                        Select a person:
+                    </label>
+                    <select
+                        id="person"
+                        value={selectedPerson}
+                        onChange={(e) => setSelectedPerson(e.target.value)}
+                        className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                    >
+                        {generatePersonOptions()}
+                    </select>
+                </div>
+                <button
+                    onClick={handleRegister}
+                    className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
                 >
-                    {generateTimeOptions()}
-                </select>
+                    Register
+                </button>
             </div>
-            <div className="mb-4">
-                <label htmlFor="person" className="block text-sm font-medium text-gray-600">
-                    Select a person:
-                </label>
-                <select
-                    id="person"
-                    value={selectedPerson}
-                    onChange={(e) => setSelectedPerson(e.target.value)}
-                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-                >
-                    {generatePersonOptions()}
-                </select>
-            </div>
-            <button
-                onClick={handleRegister}
-                className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
-            >
-                Register
-            </button>
         </div>
     );
 };

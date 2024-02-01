@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import backgroundImage from '../../utilities/img/tt-img1.avif';
 import Register_slot from './Slot_booking/Register_slot';
 import Table_slot from './Slot_booking/Table_slot';
 
@@ -40,17 +41,21 @@ const Home = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-            <div className="flex flex-col items-center">
-                <h1 className="text-4xl font-semibold mb-8">Table Tennis Scheduler</h1>
-                <Register_slot slots={slots} onRegister={handleRegister} />
+        <div className="w-screen h-screen bg-opacity-80 mx-auto p-6 rounded-md relative bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${backgroundImage})` }}>
 
-                {/* Conditionally render the Table_slot only if there are registrations */}
-                {Object.keys(slots).some((slot) => slots[slot].registrations > 0) && (
-                    <div className="mt-8">
-                        <Table_slot slots={slots} />
-                    </div>
-                )}
+            <div className="w-full  flex items-center justify-center">
+
+                <div className="flex w-full flex-col items-center">
+                    {/* <h1 className="text-4xl text-black font-semibold mb-8">Table Tennis Scheduler</h1> */}
+                    <Register_slot slots={slots} onRegister={handleRegister} />
+
+                    {/* Conditionally render the Table_slot only if there are registrations */}
+                    {Object.keys(slots).some((slot) => slots[slot].registrations > 0) && (
+                        <div className="mt-8">
+                            <Table_slot slots={slots} />
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
