@@ -5,15 +5,16 @@ import Table_slot from './Slot_booking/Table_slot';
 
 const Home = () => {
     const initialSlots = {
-        'Slot 1': { registrations: 0, persons: [] },
-        'Slot 2': { registrations: 0, persons: [] },
-        'Slot 3': { registrations: 0, persons: [] },
-        'Slot 4': { registrations: 0, persons: [] },
+        'Slot 1': { registrations: 0, persons: [], boards: {} },
+        'Slot 2': { registrations: 0, persons: [], boards: {} },
+        'Slot 3': { registrations: 0, persons: [], boards: {} },
+        'Slot 4': { registrations: 0, persons: [], boards: {} },
     };
 
     const [slots, setSlots] = useState(initialSlots);
+    const [selectedBoard, setSelectedBoard] = useState('Board 1'); // Default selected board
 
-    const handleRegister = (dateTime, person) => {
+    const handleRegister = (dateTime, person, board) => {
         setSlots((prevSlots) => {
             const existingSlot = prevSlots[dateTime];
 
@@ -22,6 +23,10 @@ const Home = () => {
                     ...existingSlot,
                     registrations: existingSlot.registrations + 1,
                     persons: [...existingSlot.persons, person],
+                    boards: {
+                        ...existingSlot.boards,
+                        [board]: (existingSlot.boards[board] || 0) + 1,
+                    },
                 };
 
                 return {
@@ -34,6 +39,7 @@ const Home = () => {
                     [dateTime]: {
                         registrations: 1,
                         persons: [person],
+                        boards: { [board]: 1 },
                     },
                 };
             }
@@ -42,17 +48,12 @@ const Home = () => {
 
     return (
         <div className="w-screen h-screen bg-opacity-80 mx-auto p-6 rounded-md relative bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${backgroundImage})` }}>
-
             <div className="w-full  flex items-center justify-center">
-
                 <div className="flex w-full flex-col items-center">
-                    {/* <h1 className="text-4xl text-black font-semibold mb-8">Table Tennis Scheduler</h1> */}
-                    <Register_slot slots={slots} onRegister={handleRegister} />
-
-                    {/* Conditionally render the Table_slot only if there are registrations */}
+                    <Register_slot slots={slots} onRegister={handleRegister} selectedBoard={selectedBoard} setSelectedBoard={setSelectedBoard} />
                     {Object.keys(slots).some((slot) => slots[slot].registrations > 0) && (
                         <div className="mt-8">
-                            <Table_slot slots={slots} />
+                            <Table_slot slots={slots} selectedBoard={selectedBoard} />
                         </div>
                     )}
                 </div>
