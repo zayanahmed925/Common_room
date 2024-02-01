@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Table_slot = ({ slots, selectedBoard }) => {
+const Carrom_table_slot = ({ slots, selectedBoard }) => {
     // Filter out slots with zero registrations for the selected board
     const filteredSlots = Object.entries(slots)
         .filter(([_, slot]) => slot.boards[selectedBoard] > 0)
@@ -44,4 +44,4 @@ const Table_slot = ({ slots, selectedBoard }) => {
     );
 };
 
-export default Table_slot;
+export default Carrom_table_slot;
