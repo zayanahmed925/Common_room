@@ -54,6 +54,7 @@ const Register_slot = ({ onRegister }) => {
                 </label>
                 <DatePicker
                     id="date"
+                    placeholderText="Select a date"
                     selected={selectedDate}
                     onChange={(date) => setSelectedDate(date)}
                     dateFormat="MMMM d, yyyy"
