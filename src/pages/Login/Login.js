@@ -101,7 +101,7 @@ const Login = () => {
               />
             </form>
             <div className="text-current mt-8 block">
-              New in MyScheduler?{" "}
+              New in Common room?{" "}
               <Link to="/register" className="text-primary font-bold">
                 {" "}
                 <span className="hover:text-secondary duration-300">

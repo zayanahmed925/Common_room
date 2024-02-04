@@ -2,24 +2,32 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const Carrom_register = ({ onRegister, selectedBoard, setSelectedBoard }) => {
+const Carrom_register = ({ onRegister }) => {
     const [selectedDate, setSelectedDate] = useState(null);
-    const [selectedTime, setSelectedTime] = useState('10:00');
-    const [selectedPerson, setSelectedPerson] = useState('Person 1');
+    const [selectedTime, setSelectedTime] = useState('Select a time slot'); // Set initial state to "Select a time slot"
+    const [selectedPerson, setSelectedPerson] = useState('Which person you are?');
+    const [selectedBoard, setSelectedBoard] = useState('Select any board');
 
     const handleRegister = () => {
-        if (selectedDate && selectedTime && selectedPerson) {
+        if (selectedDate && selectedTime && selectedPerson && selectedBoard) {
             const formattedDateTime = `${selectedDate.toLocaleDateString()} ${selectedTime}`;
             onRegister(formattedDateTime, selectedPerson, selectedBoard);
             console.log('Registering:', formattedDateTime, 'Person:', selectedPerson, 'Board:', selectedBoard);
             setSelectedDate(null);
-            setSelectedTime('10:00');
-            setSelectedPerson('Person 1');
+            setSelectedTime('Select a time slot');
+            setSelectedPerson('Which person you are?');
+            setSelectedBoard('Select any board');
         }
     };
 
     const generateTimeOptions = () => {
         const options = [];
+        options.push(
+            <option key="default" value="Select a time slot">
+                Select a time slot
+            </option>
+        );
+
         const startTime = new Date();
         startTime.setHours(10, 0, 0);
 
@@ -36,7 +44,7 @@ const Carrom_register = ({ onRegister, selectedBoard, setSelectedBoard }) => {
     };
 
     const generatePersonOptions = () => {
-        const persons = ['Person 1', 'Person 2', 'Person 3', 'Person 4'];
+        const persons = ['Which person you are?', 'Person 2', 'Person 3', 'Person 4'];
         return persons.map((person) => (
             <option key={person} value={person}>
                 {person}
@@ -45,7 +53,8 @@ const Carrom_register = ({ onRegister, selectedBoard, setSelectedBoard }) => {
     };
 
     const generateBoardOptions = () => {
-        const boards = ['Board 1', 'Board 2', 'Board 3'];
+        const boards = ['Select any board', 'Board 1', 'Board 2', 'Board 3'];
+
         return boards.map((board) => (
             <option key={board} value={board}>
                 {board}

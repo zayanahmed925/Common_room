@@ -11,7 +11,6 @@ import Carrom_game from './pages/Home/Carrom_game/Carrom_game';
 function App() {
   return (
     <div className="">
-
       <Routes>
         <Route path='/home' element={<Home></Home>}></Route>
         <Route path='/' element={<Login></Login>}></Route>
